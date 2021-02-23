@@ -1,0 +1,67 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "create_build_directory",
+            "type": "shell",
+            "linux": {
+                "command": "mkdir -p ./build"
+            },
+            "windows": {
+                "command": "cmd",
+                "args": ["/C", "if not exist .\\build mkdir .\\build"]
+            }
+        },
+        {
+            "label": "cmake",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceRoot}/build"
+            },
+            "command": "cmake",
+            "args": [
+                "-G",
+                "'Visual Studio 16 2019'",
+                "-A",
+                "x64",
+                "-DCMAKE_BUILD_TYPE=Release",
+                ".."
+            ],
+            "dependsOn": ["create_build_directory"]
+        },
+        {
+            "label": "build",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceRoot}/build"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "command": "cmake",
+            "args": [
+                "--build",
+                ".",
+                "--config",
+                "Release",
+                "--target",
+                "ALL_BUILD"
+            ],
+            "dependsOn": ["cmake"]
+        },
+        {
+            "label": "test",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceRoot}/build"
+            },
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "command": "bin/gtest_example",
+            "dependsOn": ["build"]
+        }
+    ]
+}
