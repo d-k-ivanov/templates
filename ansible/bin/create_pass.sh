@@ -3,7 +3,7 @@
 # Ansible Password Creator
 # Platform: Unix
 #
-# Author:   Dmitriy Ivanov
+# Author:   Dmitry Ivanov
 #
 
 echo "=== Welcome to Ansible Password Creator ==="
